@@ -29,4 +29,4 @@ volumes:
 networks:
   dm_network:
     external: true
-    name: dm_webserver_dm_network
+    name: your_external_network  # Replace with your Docker network name
