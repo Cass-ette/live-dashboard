@@ -10,6 +10,9 @@ dist/
 .env.local
 agents/windows/config.json
 agents/android/config.sh
+agents/macos/config.json
+agents/macos/agent.log
+agents/macos/.venv/
 *.exe
 __pycache__/
 *.spec
