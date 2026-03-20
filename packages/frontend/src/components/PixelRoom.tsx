@@ -179,63 +179,6 @@ function PixelPlant({ x, y, c }: { x: number; y: number; c: Colors }) {
   );
 }
 
-function Character({ cx, baseY, online, c }: {
-  cx: number; baseY: number; online: boolean; c: Colors;
-}) {
-  const breatheStyle = online ? {
-    animation: "pixel-breathe 3s ease-in-out infinite",
-    transformBox: "fill-box" as const,
-    transformOrigin: "bottom center",
-  } : {};
-
-  return (
-    <g opacity={online ? 1 : 0.35} style={breatheStyle}>
-      {/* Hair */}
-      <rect x={cx - 10} y={baseY - 52} width={20} height={10} rx={4} fill={c.charHair} />
-      {/* Head */}
-      <rect x={cx - 9} y={baseY - 46} width={18} height={20} rx={4} fill={c.charSkin} />
-
-      {online ? (
-        <>
-          {/* Open eyes */}
-          <rect x={cx - 6} y={baseY - 40} width={4} height={4} rx={1} fill={c.charEye} />
-          <rect x={cx + 2} y={baseY - 40} width={4} height={4} rx={1} fill={c.charEye} />
-          {/* Eye highlights */}
-          <rect x={cx - 5} y={baseY - 40} width={1.5} height={1.5} rx={0.5} fill="white" opacity={0.7} />
-          <rect x={cx + 3} y={baseY - 40} width={1.5} height={1.5} rx={0.5} fill="white" opacity={0.7} />
-          {/* Mouth */}
-          <rect x={cx - 3} y={baseY - 32} width={6} height={2} rx={1} fill="#e08070" />
-        </>
-      ) : (
-        <>
-          {/* Closed eyes */}
-          <line x1={cx - 6} y1={baseY - 38} x2={cx - 2} y2={baseY - 38}
-            stroke="#555" strokeWidth={1.5} strokeLinecap="round" />
-          <line x1={cx + 2} y1={baseY - 38} x2={cx + 6} y2={baseY - 38}
-            stroke="#555" strokeWidth={1.5} strokeLinecap="round" />
-          {/* Drooped mouth */}
-          <rect x={cx - 3} y={baseY - 31} width={6} height={2} rx={1} fill="#aa8888" />
-          {/* zzz (animated) */}
-          <text x={cx + 12} y={baseY - 48} fontSize={9} fill="#aaa"
-            style={{ animation: "pixel-zzz 2s ease-in-out infinite" }}>z</text>
-          <text x={cx + 18} y={baseY - 55} fontSize={7} fill="#bbb"
-            style={{ animation: "pixel-zzz 2s ease-in-out infinite", animationDelay: "0.4s" }}>z</text>
-          <text x={cx + 22} y={baseY - 61} fontSize={5} fill="#ccc"
-            style={{ animation: "pixel-zzz 2s ease-in-out infinite", animationDelay: "0.8s" }}>z</text>
-        </>
-      )}
-
-      {/* Body */}
-      <rect x={cx - 10} y={baseY - 26} width={20} height={18} rx={3} fill={c.charBody} />
-      {/* Arms */}
-      <rect x={cx - 20} y={baseY - 22} width={12} height={8} rx={3} fill={c.charLimb} />
-      <rect x={cx + 8} y={baseY - 22} width={12} height={8} rx={3} fill={c.charLimb} />
-      {/* Legs */}
-      <rect x={cx - 9} y={baseY - 8} width={8} height={14} rx={2.5} fill={c.charLeg} />
-      <rect x={cx + 1} y={baseY - 8} width={8} height={14} rx={2.5} fill={c.charLeg} />
-    </g>
-  );
-}
 
 function DeviceSlot({ device, cx, c }: { device: DeviceState; cx: number; c: Colors }) {
   const online = device.is_online === 1;
@@ -282,9 +225,6 @@ function DeviceSlot({ device, cx, c }: { device: DeviceState; cx: number; c: Col
       <rect x={deskLeft} y={DESK_Y} width={SLOT_W} height={DESK_H} rx={3} fill={c.desk} />
       <rect x={deskLeft + 12} y={DESK_Y + DESK_H} width={12} height={26} rx={3} fill={c.deskLeg} />
       <rect x={deskLeft + SLOT_W - 24} y={DESK_Y + DESK_H} width={12} height={26} rx={3} fill={c.deskLeg} />
-
-      {/* Character */}
-      <Character cx={cx} baseY={DESK_Y} online={online} c={c} />
 
       {/* Name label */}
       <rect x={cx - 44} y={FLOOR_Y + 12} width={88} height={14} rx={7}
