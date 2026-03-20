@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=Quicksand:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=Quicksand:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Press+Start+2P&family=DotGothic16&display=swap");
 @import "tailwindcss";
 
 @theme {
@@ -15,6 +15,7 @@
   --font-sans: "Quicksand", "Zen Maru Gothic", system-ui, sans-serif;
   --font-jp: "Zen Maru Gothic", "Quicksand", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", monospace;
+  --font-pixel: "Press Start 2P", "DotGothic16", monospace;
 }
 
 /* === Base === */

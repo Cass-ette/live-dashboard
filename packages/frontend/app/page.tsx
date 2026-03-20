@@ -31,7 +31,7 @@ export default function Home() {
     return current.devices.every((d) => d.is_online !== 1);
   }, [current?.devices]);
 
-  const [viewMode, setViewMode] = useState<"room" | "cards">("cards");
+  const [viewMode, setViewMode] = useState<"room" | "cards">("room");
 
   useEffect(() => {
     document.body.classList.toggle("night-mode", allOffline);
