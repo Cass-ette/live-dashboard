@@ -16,6 +16,7 @@
 | **HTTP 支持** | Windows 和 macOS Agent 均支持 `http://` URL，方便内网或无域名部署 |
 | **一键启动脚本** | `start.sh` — 自动生成 token/密钥、安装依赖、构建前端、启动后端和 macOS Agent |
 | **多设备 Token** | 后端和 docker-compose 支持多设备并行上报（`DEVICE_TOKEN_1`、`DEVICE_TOKEN_2`……） |
+| **像素房间视图** | `redesign/pixel-room` 分支 — 用真实像素艺术精灵替代卡片布局，展示设备活动为像素风办公室场景；PC 开机三帧动画、桌面装饰、像素字体标签（Press Start 2P + DotGothic16）、夜间模式 |
 
 ## 主题分支
 
@@ -24,6 +25,7 @@
 | 分支 | 风格 | 说明 |
 |------|------|------|
 | **`main`** | 经典和风 | 暖粉色系、Quicksand/Zen Maru 字体、猫耳气泡框、樱花花瓣动画 |
+| **`redesign/pixel-room`** | 像素房间 | 用真实像素艺术精灵展示设备活动，房间 + 卡片双视图切换，PC 三帧屏幕动画 |
 | **`redesign/monikas-room`** | Monika 的房间 | 还在设计中... |
 
 ```bash
@@ -680,6 +682,12 @@ body.night-mode {
 编辑 `packages/frontend/src/lib/app-descriptions.ts`。每个应用包含：
 - 通用描述（无 `display_title` 时使用）
 - 可选的标题模板（有 `display_title` 时使用）
+
+## 鸣谢
+
+- **[Monika-Dream/live-dashboard](https://github.com/Monika-Dream/live-dashboard)** — 原项目，提供了完整的实时设备活动仪表盘框架、VN 风格 UI 和隐私分级系统
+- **[pablodelucca/pixel-agents](https://github.com/pablodelucca/pixel-agents)** (MIT) — 像素房间视图使用的像素艺术家具精灵（桌子、电脑、植物、装饰等）
+- **[ringhyacinth/Star-Office-UI](https://github.com/ringhyacinth/Star-Office-UI)** — 像素办公室设计参考
 
 ## 许可证
 
