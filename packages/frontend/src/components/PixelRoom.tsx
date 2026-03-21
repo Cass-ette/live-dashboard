@@ -146,7 +146,7 @@ export default function PixelRoom({
           <image
             href={WHITEBOARD_IMG}
             x={decoCx(Math.floor(n / 2)) - WHITEBOARD.w / 2}
-            y={8}
+            y={36}
             width={WHITEBOARD.w}
             height={WHITEBOARD.h}
           />
@@ -189,7 +189,7 @@ export default function PixelRoom({
             <image
               href={PC_SIDE_IMG}
               x={roomW - COFFEE_TBL.w - 2 + 8}
-              y={GROUND_Y - COFFEE_TBL.h + 24 - 11}
+              y={GROUND_Y - COFFEE_TBL.h + 24 + 4}
               width={16}
               height={32}
             />
