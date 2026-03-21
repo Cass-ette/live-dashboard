@@ -156,13 +156,16 @@ export default function PixelRoom({
           const cx = slotCx(i);
           const online = d.is_online === 1;
           const deskX = cx - DESK.w / 2;
-          const deskY = GROUND_Y - DESK.h;
+          const deskY = GROUND_Y - DESK.h + 1;  // +1 so legs (rows 27-31) touch GROUND_Y
           const pcX = cx - PC.w / 2;
           // Classic PC: main unit sits on desk surface (desk visible starts row 11)
           const pcY = deskY - PC.h + 31;
 
-          const coffeeX = deskX + DESK.w - COFFEE.w;   // right edge of desk
-          const coffeeY = deskY + 5;                    // aligns with desk surface (desk has 11px transparent top, coffee has 7px visible)
+          // Coffee: sprite has cup in right half (cols 8-15). Place bounding-box left at cx
+          // so cup renders at cx+8..cx+15, just right of PC (cx-8..cx+7), no overlap.
+          // coffeeY +13 puts the cup within the desk top-surface region (sprite rows 11-25).
+          const coffeeX = cx;
+          const coffeeY = deskY + 13;
 
           return (
             <g key={d.device_id} opacity={online ? 1 : 0.45}>
