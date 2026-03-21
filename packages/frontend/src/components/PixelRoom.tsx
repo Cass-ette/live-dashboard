@@ -21,8 +21,8 @@ const PC = { w: 16, h: 32 };
 const COFFEE = { w: 16, h: 16 };
 
 /* ───── Room geometry (SVG viewBox units = asset pixels) ───── */
-const WALL_H = 80;
-const FLOOR_H = 56;
+const WALL_H = 88;
+const FLOOR_H = 48;
 const ROOM_H = WALL_H + FLOOR_H; // 136
 const GROUND_Y = WALL_H;
 
@@ -162,7 +162,7 @@ export default function PixelRoom({
           const pcY = deskY - PC.h + 31;
 
           const coffeeX = deskX + DESK.w - COFFEE.w;   // right edge of desk
-          const coffeeY = deskY - 1;                    // sits on desk surface
+          const coffeeY = deskY + 4;                    // aligns with desk surface (desk has 11px transparent top)
 
           return (
             <g key={d.device_id} opacity={online ? 1 : 0.45}>
