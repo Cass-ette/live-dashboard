@@ -11,12 +11,14 @@ const hasCJK = (s: string) => /[\u4e00-\u9fff\u3040-\u309f\u30a0-\u30ff]/.test(s
 const PC_FRAMES = [`${A}PC_FRONT_ON_1.png`, `${A}PC_FRONT_ON_2.png`, `${A}PC_FRONT_ON_3.png`];
 const PC_OFF = `${A}PC_FRONT_OFF.png`;
 const DESK_IMG = `${A}DESK_FRONT.png`;
+const COFFEE_IMG = `${A}COFFEE.png`;
 const WALL_IMG = `${A}wall_0.png`;
 const FLOOR_IMG = `${A}floor_3.png`;
 
 /* ───── Asset pixel dimensions ───── */
 const DESK = { w: 48, h: 32 };
 const PC = { w: 16, h: 32 };
+const COFFEE = { w: 16, h: 16 };
 
 /* ───── Room geometry (SVG viewBox units = asset pixels) ───── */
 const WALL_H = 80;
@@ -159,9 +161,13 @@ export default function PixelRoom({
           // Classic PC: main unit sits on desk surface (desk visible starts row 11)
           const pcY = deskY - PC.h + 31;
 
+          const coffeeX = deskX + DESK.w - COFFEE.w;   // right edge of desk
+          const coffeeY = deskY - 1;                    // sits on desk surface
+
           return (
             <g key={d.device_id} opacity={online ? 1 : 0.45}>
               <image href={DESK_IMG} x={deskX} y={deskY} width={DESK.w} height={DESK.h} />
+              <image href={COFFEE_IMG} x={coffeeX} y={coffeeY} width={COFFEE.w} height={COFFEE.h} />
               <image
                 href={online ? PC_FRAMES[frame] : PC_OFF}
                 x={pcX}
