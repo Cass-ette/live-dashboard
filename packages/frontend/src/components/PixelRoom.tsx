@@ -156,11 +156,13 @@ export default function PixelRoom({
         {Array.from({ length: n + 1 }, (_, i) => {
           const cx = decoCx(i);
           const item = FLOOR_DECOS[i % FLOOR_DECOS.length];
+          // Shift plants toward nearest desk: first gap → right, middle gap → right
+          const xShift = i === 0 ? 12 : i === n ? -12 : 12;
           return (
             <image
               key={`fd${i}`}
               href={item.src}
-              x={cx - item.w / 2}
+              x={cx - item.w / 2 + xShift}
               y={GROUND_Y - item.h + 6}
               width={item.w}
               height={item.h}
@@ -182,14 +184,14 @@ export default function PixelRoom({
             <image
               href={COFFEE_TABLE_IMG}
               x={roomW - COFFEE_TBL.w - 2}
-              y={GROUND_Y - COFFEE_TBL.h + 24}
+              y={GROUND_Y - COFFEE_TBL.h + 28}
               width={COFFEE_TBL.w}
               height={COFFEE_TBL.h}
             />
             <image
               href={PC_SIDE_IMG}
               x={roomW - COFFEE_TBL.w - 2 + 8}
-              y={GROUND_Y - COFFEE_TBL.h + 24 + 4}
+              y={GROUND_Y - COFFEE_TBL.h + 28 + 4}
               width={16}
               height={32}
             />
