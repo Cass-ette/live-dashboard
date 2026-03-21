@@ -13,7 +13,7 @@ const PC_OFF = `${A}PC_FRONT_OFF.png`;
 const DESK_IMG = `${A}DESK_FRONT.png`;
 const COFFEE_IMG = `${A}COFFEE.png`;
 const WHITEBOARD_IMG = `${A}WHITEBOARD.png`;
-const SOFA_IMG = `${A}SOFA_FRONT.png`;
+const SOFA_IMG = `${A}SOFA_SIDE.png`;
 const COFFEE_TABLE_IMG = `${A}COFFEE_TABLE.png`;
 const FLOOR_IMG = `${A}floor_3.png`;
 
@@ -22,7 +22,7 @@ const DESK = { w: 48, h: 32 };
 const PC = { w: 16, h: 32 };
 const COFFEE = { w: 16, h: 16 };
 const WHITEBOARD = { w: 32, h: 32 };
-const SOFA = { w: 32, h: 16 };
+const SOFA = { w: 16, h: 32 };
 const COFFEE_TBL = { w: 32, h: 32 };
 
 /* ───── Room geometry (SVG viewBox units = asset pixels) ───── */
@@ -181,7 +181,7 @@ export default function PixelRoom({
           const cx = slotCx(i);
           const online = d.is_online === 1;
           const deskX = cx - DESK.w / 2;
-          const deskY = GROUND_Y - DESK.h + 6;  // legs sink into floor area like plants (+6), pseudo-3D grounding
+          const deskY = GROUND_Y - DESK.h + 8;  // legs sink into floor, tabletop front at ground level
           const pcX = cx - PC.w / 2;
           // Classic PC: main unit sits on desk surface (desk visible starts row 11)
           const pcY = deskY - PC.h + 31;
