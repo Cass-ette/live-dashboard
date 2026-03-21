@@ -156,7 +156,7 @@ export default function PixelRoom({
           const cx = slotCx(i);
           const online = d.is_online === 1;
           const deskX = cx - DESK.w / 2;
-          const deskY = GROUND_Y - DESK.h + 1;  // +1 so legs (rows 27-31) touch GROUND_Y
+          const deskY = GROUND_Y - DESK.h + 6;  // legs sink into floor area like plants (+6), pseudo-3D grounding
           const pcX = cx - PC.w / 2;
           // Classic PC: main unit sits on desk surface (desk visible starts row 11)
           const pcY = deskY - PC.h + 31;
