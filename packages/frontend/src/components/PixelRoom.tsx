@@ -173,7 +173,7 @@ export default function PixelRoom({
         {/* ── Corner furniture (coffee table+PC left, sofa right) ── */}
         {roomW > MIN_ROOM_W && (
           <>
-            {/* Coffee table + side-view PC on it (left) */}
+            {/* Coffee table + side-view PC (left, flipped) */}
             <image
               href={COFFEE_TABLE_IMG}
               x={2}
@@ -181,21 +181,25 @@ export default function PixelRoom({
               width={COFFEE_TBL.w}
               height={COFFEE_TBL.h}
             />
-            <image
-              href={PC_SIDE_IMG}
-              x={2 + 8}
-              y={GROUND_Y - COFFEE_TBL.h + 28 + 2}
-              width={16}
-              height={32}
-            />
-            {/* Sofa (right, mirrored) */}
-            <image
-              href={SOFA_IMG}
-              x={roomW - SOFA.w - 2}
-              y={GROUND_Y - SOFA.h + 24}
-              width={SOFA.w}
-              height={SOFA.h}
-            />
+            <g transform={`translate(${2 * (2 + 8) + 16}, 0) scale(-1, 1)`}>
+              <image
+                href={PC_SIDE_IMG}
+                x={2 + 8}
+                y={GROUND_Y - COFFEE_TBL.h + 28 + 2}
+                width={16}
+                height={32}
+              />
+            </g>
+            {/* Sofa (right, flipped) */}
+            <g transform={`translate(${2 * (roomW - SOFA.w - 2) + SOFA.w}, 0) scale(-1, 1)`}>
+              <image
+                href={SOFA_IMG}
+                x={roomW - SOFA.w - 2}
+                y={GROUND_Y - SOFA.h + 24}
+                width={SOFA.w}
+                height={SOFA.h}
+              />
+            </g>
           </>
         )}
 
