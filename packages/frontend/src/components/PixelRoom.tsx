@@ -12,13 +12,18 @@ const PC_FRAMES = [`${A}PC_FRONT_ON_1.png`, `${A}PC_FRONT_ON_2.png`, `${A}PC_FRO
 const PC_OFF = `${A}PC_FRONT_OFF.png`;
 const DESK_IMG = `${A}DESK_FRONT.png`;
 const COFFEE_IMG = `${A}COFFEE.png`;
-const WALL_IMG = `${A}wall_0.png`;
+const WHITEBOARD_IMG = `${A}WHITEBOARD.png`;
+const SOFA_IMG = `${A}SOFA_FRONT.png`;
+const COFFEE_TABLE_IMG = `${A}COFFEE_TABLE.png`;
 const FLOOR_IMG = `${A}floor_3.png`;
 
 /* ───── Asset pixel dimensions ───── */
 const DESK = { w: 48, h: 32 };
 const PC = { w: 16, h: 32 };
 const COFFEE = { w: 16, h: 16 };
+const WHITEBOARD = { w: 32, h: 32 };
+const SOFA = { w: 32, h: 16 };
+const COFFEE_TBL = { w: 32, h: 32 };
 
 /* ───── Room geometry (SVG viewBox units = asset pixels) ───── */
 const WALL_H = 88;
@@ -101,8 +106,8 @@ export default function PixelRoom({
         {/* ── Wall decorations: hung above desks, not above plants ── */}
         {devices.map((d, i) => {
           const cx = slotCx(i);
-          // Alternate between clock and painting above each desk
-          const items = [WALL_DECOS[0], WALL_DECOS[1]]; // clock, painting
+          // Cycle clock, painting, whiteboard above each desk
+          const items = [WALL_DECOS[0], WALL_DECOS[1], { src: WHITEBOARD_IMG, ...WHITEBOARD }];
           const item = items[i % items.length];
           // Stagger height slightly: odd slots a bit higher
           const y = i % 2 === 0 ? 4 : 10;
@@ -150,6 +155,26 @@ export default function PixelRoom({
             />
           );
         })}
+
+        {/* ── Corner furniture (sofa left, coffee table right) ── */}
+        {roomW > MIN_ROOM_W && (
+          <>
+            <image
+              href={SOFA_IMG}
+              x={2}
+              y={GROUND_Y - SOFA.h + 6}
+              width={SOFA.w}
+              height={SOFA.h}
+            />
+            <image
+              href={COFFEE_TABLE_IMG}
+              x={roomW - COFFEE_TBL.w - 2}
+              y={GROUND_Y - COFFEE_TBL.h + 6}
+              width={COFFEE_TBL.w}
+              height={COFFEE_TBL.h}
+            />
+          </>
+        )}
 
         {/* ── Device slots (desk + PC) ── */}
         {devices.map((d, i) => {
