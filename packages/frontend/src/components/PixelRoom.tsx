@@ -162,7 +162,7 @@ export default function PixelRoom({
           const pcY = deskY - PC.h + 31;
 
           const coffeeX = deskX + DESK.w - COFFEE.w;   // right edge of desk
-          const coffeeY = deskY + 4;                    // aligns with desk surface (desk has 11px transparent top)
+          const coffeeY = deskY + 5;                    // aligns with desk surface (desk has 11px transparent top, coffee has 7px visible)
 
           return (
             <g key={d.device_id} opacity={online ? 1 : 0.45}>
