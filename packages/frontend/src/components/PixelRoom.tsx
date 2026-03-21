@@ -162,14 +162,14 @@ export default function PixelRoom({
             <image
               href={SOFA_IMG}
               x={2}
-              y={GROUND_Y - SOFA.h + 18}
+              y={GROUND_Y - SOFA.h + 24}
               width={SOFA.w}
               height={SOFA.h}
             />
             <image
               href={COFFEE_TABLE_IMG}
               x={roomW - COFFEE_TBL.w - 2}
-              y={GROUND_Y - COFFEE_TBL.h + 18}
+              y={GROUND_Y - COFFEE_TBL.h + 24}
               width={COFFEE_TBL.w}
               height={COFFEE_TBL.h}
             />
