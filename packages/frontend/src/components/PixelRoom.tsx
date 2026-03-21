@@ -15,6 +15,7 @@ const COFFEE_IMG = `${A}COFFEE.png`;
 const WHITEBOARD_IMG = `${A}WHITEBOARD.png`;
 const SOFA_IMG = `${A}SOFA_SIDE.png`;
 const COFFEE_TABLE_IMG = `${A}COFFEE_TABLE.png`;
+const PC_SIDE_IMG = `${A}PC_SIDE.png`;
 const FLOOR_IMG = `${A}floor_3.png`;
 
 /* ───── Asset pixel dimensions ───── */
@@ -106,8 +107,8 @@ export default function PixelRoom({
         {/* ── Wall decorations: hung above desks, not above plants ── */}
         {devices.map((d, i) => {
           const cx = slotCx(i);
-          // Cycle clock, painting, whiteboard above each desk
-          const items = [WALL_DECOS[0], WALL_DECOS[1], { src: WHITEBOARD_IMG, ...WHITEBOARD }];
+          // Alternate clock and painting above each desk
+          const items = [WALL_DECOS[0], WALL_DECOS[1]];
           const item = items[i % items.length];
           // Stagger height slightly: odd slots a bit higher
           const y = i % 2 === 0 ? 4 : 10;
@@ -140,6 +141,17 @@ export default function PixelRoom({
           />
         )}
 
+        {/* Whiteboard above center gap (cactus area) */}
+        {n >= 2 && (
+          <image
+            href={WHITEBOARD_IMG}
+            x={decoCx(Math.floor(n / 2)) - WHITEBOARD.w / 2}
+            y={8}
+            width={WHITEBOARD.w}
+            height={WHITEBOARD.h}
+          />
+        )}
+
         {/* ── Floor decorations: plants in gaps between desks ── */}
         {Array.from({ length: n + 1 }, (_, i) => {
           const cx = decoCx(i);
@@ -166,12 +178,20 @@ export default function PixelRoom({
               width={SOFA.w}
               height={SOFA.h}
             />
+            {/* Coffee table + side-view PC on it */}
             <image
               href={COFFEE_TABLE_IMG}
               x={roomW - COFFEE_TBL.w - 2}
               y={GROUND_Y - COFFEE_TBL.h + 24}
               width={COFFEE_TBL.w}
               height={COFFEE_TBL.h}
+            />
+            <image
+              href={PC_SIDE_IMG}
+              x={roomW - COFFEE_TBL.w - 2 + 8}
+              y={GROUND_Y - COFFEE_TBL.h + 24 - 11}
+              width={16}
+              height={32}
             />
           </>
         )}
