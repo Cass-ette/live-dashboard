@@ -14,6 +14,7 @@ const DESK_IMG = `${A}DESK_FRONT.png`;
 const COFFEE_IMG = `${A}COFFEE.png`;
 const WHITEBOARD_IMG = `${A}WHITEBOARD.png`;
 const SOFA_IMG = `${A}SOFA_SIDE.png`;
+const COFFEE_TABLE_IMG = `${A}COFFEE_TABLE.png`;
 const FLOOR_IMG = `${A}floor_3.png`;
 
 /* ───── Asset pixel dimensions ───── */
@@ -22,6 +23,7 @@ const PC = { w: 16, h: 32 };
 const COFFEE = { w: 16, h: 16 };
 const WHITEBOARD = { w: 32, h: 32 };
 const SOFA = { w: 16, h: 32 };
+const COFFEE_TBL = { w: 32, h: 32 };
 
 /* ───── Room geometry (SVG viewBox units = asset pixels) ───── */
 const WALL_H = 88;
@@ -154,23 +156,22 @@ export default function PixelRoom({
           );
         })}
 
-        {/* ── Corner sofas (left + mirrored right) ── */}
+        {/* ── Corner furniture (sofa left, coffee table right) ── */}
         {roomW > MIN_ROOM_W && (
           <>
             <image
               href={SOFA_IMG}
               x={2}
-              y={GROUND_Y - SOFA.h + 10}
+              y={GROUND_Y - SOFA.h + 18}
               width={SOFA.w}
               height={SOFA.h}
             />
             <image
-              href={SOFA_IMG}
-              x={0}
-              y={GROUND_Y - SOFA.h + 10}
-              width={SOFA.w}
-              height={SOFA.h}
-              transform={`translate(${roomW - 2}, 0) scale(-1, 1)`}
+              href={COFFEE_TABLE_IMG}
+              x={roomW - COFFEE_TBL.w - 2}
+              y={GROUND_Y - COFFEE_TBL.h + 18}
+              width={COFFEE_TBL.w}
+              height={COFFEE_TBL.h}
             />
           </>
         )}
@@ -180,7 +181,7 @@ export default function PixelRoom({
           const cx = slotCx(i);
           const online = d.is_online === 1;
           const deskX = cx - DESK.w / 2;
-          const deskY = GROUND_Y - DESK.h + 12; // tabletop straddles ground line, legs in floor
+          const deskY = GROUND_Y - DESK.h + 8;  // tabletop near ground line, legs in floor
           const pcX = cx - PC.w / 2;
           // Classic PC: main unit sits on desk surface (desk visible starts row 11)
           const pcY = deskY - PC.h + 31;
