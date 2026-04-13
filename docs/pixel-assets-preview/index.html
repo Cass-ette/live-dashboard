@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>Pixel Assets Preview — pixel-agents (MIT)</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #1a1a2e; color: #e0e0e0; font-family: system-ui, sans-serif; padding: 24px; }
+  h1 { text-align: center; margin-bottom: 8px; font-size: 24px; }
+  .subtitle { text-align: center; color: #888; font-size: 13px; margin-bottom: 32px; }
+  h2 { margin: 32px 0 16px; font-size: 18px; color: #c8a0e8; border-bottom: 1px solid #333; padding-bottom: 8px; }
+  .grid { display: flex; flex-wrap: wrap; gap: 20px; }
+  .card {
+    background: #242440;
+    border: 1px solid #3a3a5c;
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+    min-width: 140px;
+  }
+  .card img {
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+    display: block;
+    margin: 0 auto 8px;
+    background: #333;
+    border: 1px solid #555;
+  }
+  .card .label { font-size: 11px; color: #aaa; word-break: break-all; }
+  .card .size { font-size: 10px; color: #666; margin-top: 2px; }
+  .scale-controls { text-align: center; margin-bottom: 24px; }
+  .scale-controls button {
+    background: #3a3a5c; color: #e0e0e0; border: 1px solid #555;
+    padding: 6px 16px; margin: 0 4px; border-radius: 4px; cursor: pointer; font-size: 13px;
+  }
+  .scale-controls button.active { background: #6a4a9a; border-color: #8a6aba; }
+  .tile-preview {
+    display: flex; gap: 2px; margin: 8px auto 0;
+    width: fit-content;
+  }
+  .tile-preview img {
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    display: block;
+  }
+</style>
+</head>
+<body>
+
+<h1>Pixel Assets Preview</h1>
+<p class="subtitle">Source: <a href="https://github.com/pablodelucca/pixel-agents" style="color:#88aaff">pixel-agents</a> (MIT License) &mdash; All images rendered at 4x with <code>image-rendering: pixelated</code></p>
+
+<div class="scale-controls">
+  Scale:
+  <button onclick="setScale(2)">2x</button>
+  <button onclick="setScale(4)" class="active">4x (default)</button>
+  <button onclick="setScale(6)">6x</button>
+  <button onclick="setScale(8)">8x</button>
+</div>
+
+<h2>PC (Monitor)</h2>
+<div class="grid">
+  <div class="card">
+    <img src="furniture/PC/PC_FRONT_ON_1.png" class="scaled" data-orig="1">
+    <div class="label">PC_FRONT_ON_1</div>
+    <div class="size">Online frame 1</div>
+  </div>
+  <div class="card">
+    <img src="furniture/PC/PC_FRONT_ON_2.png" class="scaled" data-orig="1">
+    <div class="label">PC_FRONT_ON_2</div>
+    <div class="size">Online frame 2</div>
+  </div>
+  <div class="card">
+    <img src="furniture/PC/PC_FRONT_ON_3.png" class="scaled" data-orig="1">
+    <div class="label">PC_FRONT_ON_3</div>
+    <div class="size">Online frame 3</div>
+  </div>
+  <div class="card">
+    <img src="furniture/PC/PC_FRONT_OFF.png" class="scaled" data-orig="1">
+    <div class="label">PC_FRONT_OFF</div>
+    <div class="size">Offline</div>
+  </div>
+  <div class="card">
+    <img src="furniture/PC/PC_BACK.png" class="scaled" data-orig="1">
+    <div class="label">PC_BACK</div>
+  </div>
+  <div class="card">
+    <img src="furniture/PC/PC_SIDE.png" class="scaled" data-orig="1">
+    <div class="label">PC_SIDE</div>
+  </div>
+</div>
+
+<h2>Desk</h2>
+<div class="grid">
+  <div class="card">
+    <img src="furniture/DESK/DESK_FRONT.png" class="scaled" data-orig="1">
+    <div class="label">DESK_FRONT</div>
+  </div>
+  <div class="card">
+    <img src="furniture/DESK/DESK_SIDE.png" class="scaled" data-orig="1">
+    <div class="label">DESK_SIDE</div>
+  </div>
+</div>
+
+<h2>Plants</h2>
+<div class="grid">
+  <div class="card">
+    <img src="furniture/PLANT/PLANT.png" class="scaled" data-orig="1">
+    <div class="label">PLANT</div>
+  </div>
+  <div class="card">
+    <img src="furniture/CACTUS/CACTUS.png" class="scaled" data-orig="1">
+    <div class="label">CACTUS</div>
+  </div>
+  <div class="card">
+    <img src="furniture/LARGE_PLANT/LARGE_PLANT.png" class="scaled" data-orig="1">
+    <div class="label">LARGE_PLANT</div>
+  </div>
+  <div class="card">
+    <img src="furniture/HANGING_PLANT/HANGING_PLANT.png" class="scaled" data-orig="1">
+    <div class="label">HANGING_PLANT</div>
+  </div>
+</div>
+
+<h2>Other Furniture</h2>
+<div class="grid">
+  <div class="card">
+    <img src="furniture/SOFA/SOFA_FRONT.png" class="scaled" data-orig="1">
+    <div class="label">SOFA_FRONT</div>
+  </div>
+  <div class="card">
+    <img src="furniture/SOFA/SOFA_BACK.png" class="scaled" data-orig="1">
+    <div class="label">SOFA_BACK</div>
+  </div>
+  <div class="card">
+    <img src="furniture/SOFA/SOFA_SIDE.png" class="scaled" data-orig="1">
+    <div class="label">SOFA_SIDE</div>
+  </div>
+  <div class="card">
+    <img src="furniture/BOOKSHELF/BOOKSHELF.png" class="scaled" data-orig="1">
+    <div class="label">BOOKSHELF</div>
+  </div>
+  <div class="card">
+    <img src="furniture/WHITEBOARD/WHITEBOARD.png" class="scaled" data-orig="1">
+    <div class="label">WHITEBOARD</div>
+  </div>
+  <div class="card">
+    <img src="furniture/COFFEE_TABLE/COFFEE_TABLE.png" class="scaled" data-orig="1">
+    <div class="label">COFFEE_TABLE</div>
+  </div>
+  <div class="card">
+    <img src="furniture/TABLE_FRONT/TABLE_FRONT.png" class="scaled" data-orig="1">
+    <div class="label">TABLE_FRONT</div>
+  </div>
+  <div class="card">
+    <img src="furniture/COFFEE/COFFEE.png" class="scaled" data-orig="1">
+    <div class="label">COFFEE</div>
+  </div>
+</div>
+
+<h2>Wall Decorations</h2>
+<div class="grid">
+  <div class="card">
+    <img src="furniture/CLOCK/CLOCK.png" class="scaled" data-orig="1">
+    <div class="label">CLOCK</div>
+  </div>
+  <div class="card">
+    <img src="furniture/SMALL_PAINTING/SMALL_PAINTING.png" class="scaled" data-orig="1">
+    <div class="label">SMALL_PAINTING</div>
+  </div>
+</div>
+
+<h2>Floor Tiles (tiled 3x3 preview)</h2>
+<div class="grid">
+  <div class="card" id="floor-0">
+    <div class="tile-preview" data-tile="floors/floor_0.png"></div>
+    <div class="label">floor_0</div>
+  </div>
+  <div class="card" id="floor-1">
+    <div class="tile-preview" data-tile="floors/floor_1.png"></div>
+    <div class="label">floor_1</div>
+  </div>
+  <div class="card" id="floor-2">
+    <div class="tile-preview" data-tile="floors/floor_2.png"></div>
+    <div class="label">floor_2</div>
+  </div>
+  <div class="card" id="floor-3">
+    <div class="tile-preview" data-tile="floors/floor_3.png"></div>
+    <div class="label">floor_3</div>
+  </div>
+  <div class="card" id="floor-4">
+    <div class="tile-preview" data-tile="floors/floor_4.png"></div>
+    <div class="label">floor_4</div>
+  </div>
+  <div class="card" id="floor-5">
+    <div class="tile-preview" data-tile="floors/floor_5.png"></div>
+    <div class="label">floor_5</div>
+  </div>
+  <div class="card" id="floor-6">
+    <div class="tile-preview" data-tile="floors/floor_6.png"></div>
+    <div class="label">floor_6</div>
+  </div>
+  <div class="card" id="floor-7">
+    <div class="tile-preview" data-tile="floors/floor_7.png"></div>
+    <div class="label">floor_7</div>
+  </div>
+  <div class="card" id="floor-8">
+    <div class="tile-preview" data-tile="floors/floor_8.png"></div>
+    <div class="label">floor_8</div>
+  </div>
+</div>
+
+<h2>Wall Tile</h2>
+<div class="grid">
+  <div class="card">
+    <div class="tile-preview" data-tile="walls/wall_0.png" data-rows="3" data-cols="2"></div>
+    <div class="label">wall_0 (tiled 2x3)</div>
+  </div>
+</div>
+
+<script>
+let currentScale = 4;
+
+function setScale(s) {
+  currentScale = s;
+  document.querySelectorAll('.scale-controls button').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  applyScale();
+}
+
+function applyScale() {
+  document.querySelectorAll('img.scaled').forEach(img => {
+    if (!img.naturalWidth) {
+      img.onload = () => {
+        img.style.width = (img.naturalWidth * currentScale) + 'px';
+        img.style.height = (img.naturalHeight * currentScale) + 'px';
+      };
+    } else {
+      img.style.width = (img.naturalWidth * currentScale) + 'px';
+      img.style.height = (img.naturalHeight * currentScale) + 'px';
+    }
+  });
+  // Tile previews
+  document.querySelectorAll('.tile-preview').forEach(container => {
+    const src = container.dataset.tile;
+    const rows = parseInt(container.dataset.rows || '3');
+    const cols = parseInt(container.dataset.cols || '3');
+    container.innerHTML = '';
+    container.style.display = 'grid';
+    container.style.gridTemplateColumns = `repeat(${cols}, auto)`;
+    container.style.gap = '0px';
+    for (let i = 0; i < rows * cols; i++) {
+      const img = document.createElement('img');
+      img.src = src;
+      img.style.imageRendering = 'pixelated';
+      img.onload = function() {
+        this.style.width = (this.naturalWidth * currentScale) + 'px';
+        this.style.height = (this.naturalHeight * currentScale) + 'px';
+      };
+      container.appendChild(img);
+    }
+  });
+}
+
+window.addEventListener('load', applyScale);
+</script>
+
+</body>
+</html>

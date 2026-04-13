@@ -19,3 +19,5 @@ __pycache__/
 build/
 *.zip
 packages/backend/public/
+.DS_Store
+packages/frontend/tsconfig.tsbuildinfo

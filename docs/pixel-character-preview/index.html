@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>Pixel Character Preview</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #1a1a2e; color: #e0e0e0; font-family: system-ui, sans-serif; padding: 24px; }
+  h1 { font-size: 20px; margin-bottom: 6px; }
+  .sub { font-size: 11px; color: #777; margin-bottom: 28px; }
+  h2 { font-size: 13px; color: #c8a0e8; margin: 28px 0 12px; border-bottom: 1px solid #2a2a4a; padding-bottom: 6px; }
+  .row { display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-end; margin-bottom: 12px; }
+  .demo { text-align: center; }
+  .lbl { font-size: 10px; color: #666; margin-top: 5px; font-family: monospace; white-space: pre; }
+  svg { display: block; }
+  .anim-row { display: flex; gap: 40px; flex-wrap: wrap; align-items: flex-start; margin-top: 12px; }
+  .anim-block { text-align: center; }
+  .anim-block p { font-size: 11px; color: #aaa; margin-top: 8px; }
+</style>
+</head>
+<body>
+<h1>像素角色预览 — 纯内联 SVG · 可行走</h1>
+<p class="sub">角色由 SVG &lt;rect&gt; 绘制，无需外部图片 · 行走 = 切帧 + 移动 x，和 PC 屏幕动画完全相同机制</p>
+
+<h2>行走帧（4 帧循环，8×16 像素）</h2>
+<div class="row" id="walkFrames"></div>
+
+<h2>实时动画</h2>
+<div class="anim-row">
+  <div class="anim-block">
+    <div id="animInPlace"></div>
+    <p>原地走（8x）</p>
+  </div>
+  <div class="anim-block">
+    <div id="walkRoom"></div>
+    <p>在房间里行走（3x）</p>
+  </div>
+</div>
+
+<h2>坐姿（桌前在线，8×12）</h2>
+<div class="row" id="rowSit"></div>
+
+<h2>趴睡（离线状态，8×6）</h2>
+<div class="row" id="rowSleep"></div>
+
+<script>
+const N = null;
+const C = {
+  H:'#2c1a0a', h:'#5a3520',
+  S:'#f5c5a3',
+  E:'#181818', M:'#c06840',
+  B:'#4a7ed0', b:'#1c4488',
+  P:'#2a4a7a',
+};
+
+// ── Walk cycle base: head + shirt (8×11) ──
+const BASE = [
+  [N, N,'H','H','H','H', N, N],
+  [N,'H','H','h','h','H','H', N],
+  [N,'H','S','S','S','S','H', N],
+  [N,'H','S','E','S','E','H', N],
+  [N,'H','S','S','M','S','H', N],
+  [N, N,'S','S','S','S', N, N],
+  [N,'B','B','B','B','B','B', N],
+  ['B','B','B','B','B','B','B','B'],
+  ['B','B','B','b','b','B','B','B'],
+  ['S','B','B','B','B','B','B','S'],
+  [N,'P','P','P','P','P','P', N],
+];
+
+// ── Leg variants (rows 11–15) ──
+const LEGS_STAND = [
+  [N,'P','P', N, N,'P','P', N],
+  [N,'P','P', N, N,'P','P', N],
+  [N,'P', N, N, N, N,'P', N],
+  [N,'P', N, N, N, N,'P', N],
+  [N,'P','P', N, N,'P','P', N],
+];
+const LEGS_L = [   // left leg forward
+  ['P','P', N, N, N, N,'P', N],
+  ['P','P', N, N, N,'P','P', N],
+  ['P', N, N, N, N,'P', N, N],
+  ['P', N, N, N, N,'P', N, N],
+  ['P','P', N, N, N,'P', N, N],
+];
+const LEGS_R = [   // right leg forward
+  [N,'P', N, N, N, N,'P','P'],
+  [N,'P','P', N, N, N,'P','P'],
+  [N, N,'P', N, N, N, N,'P'],
+  [N, N,'P', N, N, N, N,'P'],
+  [N, N,'P', N, N, N,'P','P'],
+];
+
+const WALK_FRAMES = [
+  [...BASE, ...LEGS_STAND],
+  [...BASE, ...LEGS_L],
+  [...BASE, ...LEGS_STAND],
+  [...BASE, ...LEGS_R],
+];
+
+// ── Sitting (8×12) ──
+const CHAR_SIT = [
+  [N, N,'H','H','H','H', N, N],
+  [N,'H','H','h','h','H','H', N],
+  [N,'H','S','S','S','S','H', N],
+  [N,'H','S','E','S','E','H', N],
+  [N,'H','S','S','M','S','H', N],
+  [N, N,'S','S','S','S', N, N],
+  [N,'B','B','B','B','B','B', N],
+  ['B','B','B','B','B','B','B','B'],
+  ['B','B','B','b','b','B','B','B'],
+  ['S','B','B','B','B','B','B','S'],
+  ['S','S', N, N, N, N,'S','S'],
+  [N,'P','P','P','P','P','P', N],
+];
+
+// ── Sleeping (8×6, head on desk) ──
+const CHAR_SLEEP = [
+  [N,'H','H','H','H','H','H', N],
+  ['H','H','h','H','H','h','H','H'],
+  ['H','H','S','S','S','S','H','H'],
+  ['H','H','S','E','S','S','H','H'],
+  [N,'H','S','S','S','S','H', N],
+  [N, N,'B','B','B','B', N, N],
+];
+
+// ── SVG generator ──
+function charSVG(grid, scale, bg = '#242440') {
+  const W = grid[0].length, H = grid.length;
+  const rects = grid.flatMap((row, y) =>
+    row.map((key, x) => {
+      if (!key || !C[key]) return '';
+      return `<rect x="${x}" y="${y}" width="1" height="1" fill="${C[key]}"/>`;
+    })
+  ).join('');
+  return `<svg width="${W * scale}" height="${H * scale}" viewBox="0 0 ${W} ${H}"
+    style="image-rendering:pixelated;display:block;background:${bg}">${rects}</svg>`;
+}
+
+// Static frames display
+const framesEl = document.getElementById('walkFrames');
+WALK_FRAMES.forEach((g, i) => {
+  const labels = ['站立', '左迈步', '站立', '右迈步'];
+  const d = document.createElement('div');
+  d.className = 'demo';
+  d.innerHTML = charSVG(g, 6) + `<div class="lbl">Frame ${i + 1}\n${labels[i]}</div>`;
+  framesEl.appendChild(d);
+});
+
+// Sitting / sleeping
+['rowSit','rowSleep'].forEach((id, i) => {
+  const el = document.getElementById(id);
+  const grid = i === 0 ? CHAR_SIT : CHAR_SLEEP;
+  [4, 6, 8, 12].forEach(sc => {
+    const d = document.createElement('div');
+    d.className = 'demo';
+    d.innerHTML = charSVG(grid, sc) + `<div class="lbl">${sc}x</div>`;
+    el.appendChild(d);
+  });
+});
+
+// ── In-place animated walk ──
+let inplaceFrame = 0;
+const inplaceEl = document.getElementById('animInPlace');
+function updateInplace() {
+  inplaceEl.innerHTML = charSVG(WALK_FRAMES[inplaceFrame], 8);
+  inplaceFrame = (inplaceFrame + 1) % 4;
+}
+updateInplace();
+setInterval(updateInplace, 160);
+
+// ── Walking in room scene ──
+const ROOM_W = 220, WALL_H = 80, FLOOR_H = 56;
+const GY = WALL_H;
+const ROOM_SCALE = 3;
+
+function buildRoom() {
+  const ns = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(ns, 'svg');
+  svg.setAttribute('width', ROOM_W * ROOM_SCALE);
+  svg.setAttribute('height', (WALL_H + FLOOR_H) * ROOM_SCALE);
+  svg.setAttribute('viewBox', `0 0 ${ROOM_W} ${WALL_H + FLOOR_H}`);
+  svg.style.imageRendering = 'pixelated';
+  svg.style.display = 'block';
+  svg.style.border = '1px solid #333';
+
+  function r(x, y, w, h, fill) {
+    const el = document.createElementNS(ns, 'rect');
+    el.setAttribute('x', x); el.setAttribute('y', y);
+    el.setAttribute('width', w); el.setAttribute('height', h);
+    el.setAttribute('fill', fill);
+    svg.appendChild(el);
+  }
+
+  // Wall + baseboard
+  r(0, 0, ROOM_W, WALL_H, '#d8ccb0');
+  r(0, GY - 4, ROOM_W, 4, '#7a5c2c');
+
+  // Floor tiles
+  for (let tx = 0; tx < ROOM_W; tx += 16)
+    for (let ty = 0; ty < FLOOR_H; ty += 16) {
+      const lite = (Math.floor(tx / 16) + Math.floor(ty / 16)) % 2 === 0;
+      r(tx, GY + ty, 16, 16, lite ? '#c8b878' : '#d4c888');
+    }
+
+  // Plant (left)
+  r(14, GY - 20, 8, 12, '#3a8a3a');
+  r(16, GY - 8,  4,  8, '#8b5a30');
+  r(13, GY - 4,  8,  4, '#6a4020');
+
+  // Desk (right)
+  const deskX = ROOM_W - 68, deskY = GY - 32;
+  r(deskX, deskY, 48, 32, '#8b6a3e');
+  r(deskX, deskY, 48, 5,  '#a0855a');
+  r(deskX, deskY + 5, 48, 2, '#6a4a22');
+  r(deskX + 4,  deskY + 20, 3, 12, '#6a4a22');
+  r(deskX + 41, deskY + 20, 3, 12, '#6a4a22');
+
+  // PC on desk
+  const pcX = deskX + 16, pcY = deskY - 32 + 31;
+  r(pcX, pcY, 16, 32, '#888');
+  r(pcX + 2, pcY + 3,  12, 10, '#3366cc');
+  r(pcX + 3, pcY + 4,  10,  8, '#6699ff');
+  r(pcX + 3, pcY + 5,   7,  1, '#88ffaa');
+  r(pcX + 3, pcY + 7,   5,  1, '#ffaa88');
+  r(pcX + 3, pcY + 9,   8,  1, '#88aaff');
+
+  // Coffee on desk
+  r(deskX + 34, deskY - 8, 6, 7, '#fff');
+  r(deskX + 33, deskY - 6, 1, 3, '#ccc');
+  r(deskX + 35, deskY - 8, 4, 1, '#cc5500');
+
+  // Character group (will be updated by animation)
+  const charGroup = document.createElementNS(ns, 'g');
+  svg.appendChild(charGroup);
+
+  // State
+  let frame = 0;
+  let charX = -8;
+  let dir = 1; // 1 = right, -1 = left
+
+  function drawChar() {
+    charGroup.innerHTML = '';
+    const grid = WALK_FRAMES[frame];
+    const cH = grid.length, cW = grid[0].length;
+    const charY = GY - cH; // feet at ground
+
+    // Flip group when walking left
+    const g = document.createElementNS(ns, 'g');
+    if (dir === -1) {
+      g.setAttribute('transform', `translate(${charX + cW}, ${charY}) scale(-1, 1)`);
+    } else {
+      g.setAttribute('transform', `translate(${charX}, ${charY})`);
+    }
+    charGroup.appendChild(g);
+
+    grid.forEach((row, dy) =>
+      row.forEach((key, dx) => {
+        if (!key || !C[key]) return;
+        const rect = document.createElementNS(ns, 'rect');
+        rect.setAttribute('x', dx);
+        rect.setAttribute('y', dy);
+        rect.setAttribute('width', 1);
+        rect.setAttribute('height', 1);
+        rect.setAttribute('fill', C[key]);
+        g.appendChild(rect);
+      })
+    );
+  }
+
+  setInterval(() => {
+    charX += dir * 2;
+    frame = (frame + 1) % 4;
+    if (charX > ROOM_W) { charX = ROOM_W; dir = -1; }
+    if (charX < -8)     { charX = -8;     dir =  1; }
+    drawChar();
+  }, 160);
+
+  drawChar();
+  return svg;
+}
+
+document.getElementById('walkRoom').appendChild(buildRoom());
+</script>
+</body>
+</html>

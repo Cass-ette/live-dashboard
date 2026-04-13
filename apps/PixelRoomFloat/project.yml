@@ -1,0 +1,25 @@
+name: PixelRoomFloat
+options:
+  bundleIdPrefix: com.chenzilve
+  deploymentTarget:
+    macOS: "13.0"
+  xcodeVersion: "16.3"
+targets:
+  PixelRoomFloat:
+    type: application
+    platform: macOS
+    sources:
+      - PixelRoomFloat
+    info:
+      path: PixelRoomFloat/Info.plist
+      properties:
+        LSUIElement: true
+        NSAppTransportSecurity:
+          NSAllowsArbitraryLoads: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.chenzilve.PixelRoomFloat
+        MARKETING_VERSION: "1.0"
+        CURRENT_PROJECT_VERSION: "1"
+        SWIFT_VERSION: "5.9"
+        MACOSX_DEPLOYMENT_TARGET: "13.0"
